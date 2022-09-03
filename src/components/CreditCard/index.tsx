@@ -1,6 +1,8 @@
 import React from "react";
 import { ActivityIndicator, Dimensions } from "react-native";
 import {
+  Skia,
+  Blur,
   Canvas,
   RoundedRect,
   LinearGradient,
@@ -9,6 +11,9 @@ import {
   Group,
   useFont,
   Text,
+  TextPath,
+  translate,
+  SkMatrix,
 } from "@shopify/react-native-skia";
 
 import CairoFont from "../../assets/fonts/Cairo-Regular.ttf";
@@ -22,6 +27,10 @@ const CreditCard = () => {
   if (font === null) {
     return <ActivityIndicator />;
   }
+
+  const circle = Skia.Path.Make();
+  circle.addCircle(60, 60, 30);
+  circle.offset(width - 100, height - 100);
 
   return (
     <Canvas style={{ width, height }}>
@@ -38,9 +47,34 @@ const CreditCard = () => {
         <Circle cx={width - 40} cy={40} r={20} color="#98504B" />
       </Group>
 
-      <Text x={20} y={50} font={font} color="#fff" text="Mastercard" />
-      <Text x={20} y={height -90} font={font} color="#fff" text="0000 0000 0000 0000" />
+      <Text x={20} y={50} font={font} color="#fff" text="Operadora do cartão" />
+      <Text
+        x={20}
+        y={height - 90}
+        font={font}
+        color="#fff"
+        text="0000 0000 0000 0000"
+      />
+      <Text x={20} y={height - 30} font={font} color="#fff" text="00/0000" />
+      <Text
+        x={width - 55}
+        y={height - 30}
+        font={font}
+        color="#fff"
+        text="000"
+      />
+
+      <TextPath
+        text="test test test test test test"
+        font={font}
+        path={circle}
+        color="#000"
+        opacity={0.3}
+      >
+        <Blur blur={1} />
+      </TextPath>
     </Canvas>
   );
 };
+
 export default CreditCard;
